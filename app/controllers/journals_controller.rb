@@ -6,7 +6,11 @@ class JournalsController < ApplicationController
 
   def create
     journal = Journal.create(journal_params)
-    render json: journal, status: :created
+    if journal.valid?
+      render json: journal, status: :created
+    else
+      render json: { error: journal.errors.full_messages }
+    end
   end
   def show
     journal = Journal.find_by(id: params[:id])
@@ -25,7 +29,7 @@ class JournalsController < ApplicationController
   end
 
   def gratitude_space
-    journals = Journal.all.order(:created_at)
+    journals = Journal.all.order(created_at: :desc)
     render json: journals, each_serializer: GratitudeSpaceSerializer
   end
 

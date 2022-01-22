@@ -58,7 +58,10 @@
   animation-iteration-count: infinite;
   opacity: 1;
 }
-#quill {
+#quill-journal {
+  width: 100%;
+}
+#quill-gratitude {
   width: 100%;
 }
 .journal-items-container {
@@ -72,4 +75,8 @@
 }
 #edit-btn {
   background-color: #0187a2;
+}
+
+.react-links {
+  text-decoration: none;
 }

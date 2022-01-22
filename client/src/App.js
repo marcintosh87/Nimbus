@@ -2,7 +2,6 @@ import "./App.css";
 import "./Login.css";
 import Navbar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GratitudeSpace from "./components/GratitudeSpace";
 import Signup from "./components/Signup";
@@ -10,15 +9,15 @@ import SignIn from "./components/SignIn";
 import { useEffect, useState } from "react";
 import UserJournal from "./components/UserJournal";
 import JournalEntry from "./components/JournalEntry";
-import JournalVNav from "./components/JournalVNav";
+import UserJournalMain from "./components/UserJournalMain";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [journals, setJournals] = useState("");
   const [counter, setCounter] = useState(1);
-  const [user, setUser] = useState([]);
 
+  // This allows for the user to remain logged in once authenticated. It must be at the highest level of flow
   useEffect(() => {
     fetch("/me").then((res) => {
       if (res.ok) {
@@ -29,7 +28,7 @@ function App() {
       }
     });
   }, []);
-
+  // this fetch provides the gratitude wall journals, except for entries marked as private
   const fetchJournals = async () => {
     fetch("/gratitude_space").then((res) => {
       if (res.ok) {
@@ -47,6 +46,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        {/* Navbar is inside her so that useNavigate can be used to redirect */}
         <Navbar
           authenticated={authenticated}
           currentUser={currentUser}
@@ -55,7 +55,13 @@ function App() {
         <Routes>
           <Route path="/" element={<GratitudeSpace journals={journals} />} />
 
-          {authenticated && currentUser ? (
+          {/* Main section for users who have been authenticated */}
+
+          {currentUser ? (
+            <Route path="/journal_entries " element={<UserJournalMain />} />
+          ) : null}
+
+          {currentUser ? (
             <Route
               path="/addJournal"
               element={

@@ -2,19 +2,21 @@ import "./App.css";
 import "./Login.css";
 import Navbar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import GratitudeSpace from "./components/GratitudeSpace";
 import Signup from "./components/Signup";
 import SignIn from "./components/SignIn";
 import { useEffect, useState } from "react";
-import UserJournal from "./components/UserJournal";
+
 import JournalEntry from "./components/JournalEntry";
-import UserJournalMain from "./components/UserJournalMain";
+import UserJournalForm from "./components/UserJournalForm";
+import JournalSingleEntry from "./components/JournalSingleEntry";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [journals, setJournals] = useState("");
+  const [alljournals, setAllJournals] = useState([]);
   const [counter, setCounter] = useState(1);
 
   // This allows for the user to remain logged in once authenticated. It must be at the highest level of flow
@@ -27,7 +29,7 @@ function App() {
         });
       }
     });
-  }, []);
+  }, [counter]);
   // this fetch provides the gratitude wall journals, except for entries marked as private
   const fetchJournals = async () => {
     fetch("/gratitude_space").then((res) => {
@@ -39,102 +41,90 @@ function App() {
     });
   };
 
+  const fetchAllJournals = () => {
+    fetch("/journals").then((res) => {
+      if (res.ok) {
+        res.json().then(setAllJournals);
+      } else {
+        console.error("Nothing here");
+      }
+    });
+  };
+  useEffect(() => {
+    fetchAllJournals();
+  }, [counter]);
+
   useEffect(() => {
     fetchJournals();
   }, [counter]);
 
   return (
     <>
-      <BrowserRouter>
-        {/* Navbar is inside her so that useNavigate can be used to redirect */}
-        <Navbar
-          authenticated={authenticated}
-          currentUser={currentUser}
-          setAuthenticated={setAuthenticated}
-        />
-        <Routes>
-          <Route path="/" element={<GratitudeSpace journals={journals} />} />
+      {/* Navbar is inside her so that useNavigate can be used to redirect */}
+      <Navbar
+        authenticated={authenticated}
+        currentUser={currentUser}
+        setAuthenticated={setAuthenticated}
+      />
 
-          {/* Main section for users who have been authenticated */}
-
-          {currentUser ? (
-            <Route path="/journal_entries " element={<UserJournalMain />} />
-          ) : null}
-
-          {currentUser ? (
-            <Route
-              path="/addJournal"
-              element={
-                <UserJournal
-                  currentUser={currentUser}
-                  setCounter={setCounter}
-                  counter={counter}
-                />
-              }
-            />
-          ) : (
-            <Route
-              path="/sign-in"
-              element={
-                <SignIn
-                  setAuthenticated={setAuthenticated}
-                  setCurrentUser={setCurrentUser}
-                />
-              }
-            />
-          )}
-          {/* signup */}
-          {authenticated ? null : (
-            <Route
-              path="/sign-up"
-              element={
-                <Signup
-                  setCurrentUser={setCurrentUser}
-                  setAuthenticated={setAuthenticated}
-                />
-              }
-            />
-          )}
-
+      <Routes>
+        {currentUser && (
           <Route
+            path="/:id/journal/:id"
             element={
-              authenticated &&
-              currentUser.journals.map((each) => (
-                <JournalEntry
-                  key={each.id}
-                  title={each.title}
-                  journalEntry={each.journal_entry}
-                />
-              ))
-            }
-            path={
-              authenticated &&
-              `/${currentUser.id}/journal/${currentUser.journals.map(
-                (each) => each.id
-              )}`
+              <JournalSingleEntry
+                currentUser={currentUser}
+                counter={counter}
+                setCounter={setCounter}
+              />
             }
           />
-        </Routes>
-      </BrowserRouter>
+        )}
+        {currentUser ? (
+          <Route
+            path="/:id/journal"
+            element={<JournalEntry currentUser={currentUser} />}
+          />
+        ) : null}
+        {currentUser ? (
+          <Route
+            path=":id/addJournal"
+            element={
+              <UserJournalForm
+                currentUser={currentUser}
+                setCounter={setCounter}
+                counter={counter}
+              />
+            }
+          />
+        ) : (
+          <Route
+            path="/sign-in"
+            element={
+              <SignIn
+                setAuthenticated={setAuthenticated}
+                setCurrentUser={setCurrentUser}
+              />
+            }
+          />
+        )}
+        {/* signup */}
+        {authenticated ? null : (
+          <Route
+            path="/sign-up"
+            element={
+              <Signup
+                setCurrentUser={setCurrentUser}
+                setAuthenticated={setAuthenticated}
+                currentUser={currentUser}
+              />
+            }
+          />
+        )}
+        <Route path="/" element={<GratitudeSpace journals={journals} />} />
+      </Routes>
     </>
   );
 }
 
 export default App;
-
-// //      {authenticated ? (
-//   <Route
-//   path={`/${currentUser.id}/journal/${currentUser.journals.map(
-//     (each) => each.id
-//   )}`}
-//   element={
-//     <JournalEntry
-//       journalEntry={
-//         currentUser &&
-//         currentUser.journals.map((each) => each.journal_entry)
-//       }
-//       currentUser={currentUser}
-//     />
-//   }
-// />
-// // ) : null}

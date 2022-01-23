@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.1.3",
     "bulma": "^0.9.3",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.1",
     "react-dom": "^17.0.2",
@@ -24,7 +25,9 @@
   },
   "keywords": [],
   "alias": {
-    "@mui/styled-engine": "@mui/styled-engine-sc"
+    "@mui/styled-engine": "@mui/styled-engine-sc",
+    "react": "path.resolve('./node_modules/react')",
+    "react-dom": "path.resolve('./node_modules/react-dom')"
   },
   "scripts": {
     "start": "PORT=4000 react-scripts start",

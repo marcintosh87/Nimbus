@@ -1,36 +1,40 @@
-import { Button, Container, Fab, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Divider,
+  Fab,
+  Grid,
+  Link,
+  Typography,
+} from "@mui/material";
 import React from "react";
-import EditIcon from "@mui/icons-material/Edit";
-import JournalVNav from "./JournalVNav";
 
-export default function JournalEntry({ currentUser, journalEntry, title }) {
+import JournalVNav from "./JournalVNav";
+import JournalEntryCard from "./JournalEntryCard";
+
+export default function JournalEntry({ currentUser }) {
   return (
     <Container>
       <Grid container direction="row" sx={{ mt: 2 }}>
         <Grid item xs={3}>
-          <JournalVNav />
+          <JournalVNav currentUser={currentUser} />
         </Grid>
 
         <Grid item xs={9}>
-          <Typography variant="h4">{title}</Typography>
-          <Typography variant="p">{journalEntry}</Typography>
-          <Grid container direction="row" sx={{ mt: 2 }}>
-            <Grid item xs={8}>
-              <Fab
-                color="secondary"
-                size="small"
-                aria-label="edit"
-                id="edit-btn"
-              >
-                <EditIcon />
-              </Fab>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" id="delete-btn">
-                Delete
-              </Button>
-            </Grid>
-          </Grid>
+          <Typography sx={{ mb: 2 }} variant="h3">
+            List of all Journals
+          </Typography>
+          <Divider sx={{ mb: 2 }} />
+          {currentUser &&
+            currentUser.journals.map((journal) => (
+              <JournalEntryCard
+                key={journal.id}
+                id={journal.id}
+                currentUser={currentUser.id}
+                title={journal.title}
+                created={journal.created_date}
+              />
+            ))}
         </Grid>
       </Grid>
     </Container>

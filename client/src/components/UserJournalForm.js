@@ -3,11 +3,8 @@ import {
   Container,
   Fab,
   Grid,
-  Link,
   TextField,
-  Slider,
   Box,
-  Typography,
   FormControlLabel,
   Switch,
   Select,
@@ -16,10 +13,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+
 import EditIcon from "@mui/icons-material/Edit";
-import { useNavigate } from "react-router-dom";
+
 import JournalVNav from "./JournalVNav";
 
 export default function UserJournalForm({ currentUser, setCounter, counter }) {

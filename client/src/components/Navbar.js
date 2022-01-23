@@ -39,8 +39,9 @@ export default function Navbar({
         "Content-type": "application/json; charset=UTF-8", // Indicates the content
       },
     });
-    nav("/");
+
     window.location.reload();
+    nav("/");
   };
 
   return (
@@ -85,12 +86,19 @@ export default function Navbar({
               }}
             >
               {currentUser && (
-                <Link to="addJournal" className="react-links">
+                <Link
+                  to={`${currentUser.id}/addJournal`}
+                  className="react-links"
+                >
                   <MenuItem onClick={handleClose}>New Entry</MenuItem>
                 </Link>
               )}
 
-              <MenuItem onClick={handleClose}>View Entries</MenuItem>
+              {currentUser && (
+                <Link to={`${currentUser.id}/journal`} className="react-links">
+                  <MenuItem onClick={handleClose}>View Entries</MenuItem>
+                </Link>
+              )}
             </Menu>
           )}
         </Grid>

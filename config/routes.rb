@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :journals
   resources :users, only: %i[create index]
 
-  get '/users/:id/journals', to: 'users#journals'
+  # get '/users/:id/journals', to: 'users#journals'
 
   get '/me', to: 'users#show'
 

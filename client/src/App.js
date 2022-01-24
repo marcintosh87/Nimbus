@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import JournalEntry from "./components/JournalEntry";
 import UserJournalForm from "./components/UserJournalForm";
 import JournalSingleEntry from "./components/JournalSingleEntry";
+import JournalEntryEdit from "./components/JournalEntryEdit";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -104,6 +105,19 @@ function App() {
               <SignIn
                 setAuthenticated={setAuthenticated}
                 setCurrentUser={setCurrentUser}
+              />
+            }
+          />
+        )}
+        {/* edit entry */}
+        {currentUser && (
+          <Route
+            path="/:id/journal/:id/edit"
+            element={
+              <JournalEntryEdit
+                currentUser={currentUser}
+                counter={counter}
+                setCounter={setCounter}
               />
             }
           />

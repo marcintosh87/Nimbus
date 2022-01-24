@@ -6,12 +6,12 @@ import {
   CardHeader,
   Fab,
   Grid,
-  Link,
   Typography,
 } from "@mui/material";
 import React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { typography } from "@mui/system";
+import { Link } from "react-router-dom";
 
 export default function JournalEntryCard({
   journalEntry,
@@ -31,7 +31,12 @@ export default function JournalEntryCard({
             <Grid item xs={8}>
               <Typography>Posted on: {created}</Typography>
               <CardActions>
-                <Button href={`/${currentUser}/journal/${id}`}>Read</Button>
+                <Link
+                  to={`/${currentUser}/journal/${id}`}
+                  className="react-links"
+                >
+                  <Button>Read</Button>
+                </Link>
               </CardActions>
             </Grid>
             <Grid item xs={4}></Grid>

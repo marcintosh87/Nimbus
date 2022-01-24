@@ -17,6 +17,7 @@ import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 
 import JournalVNav from "./JournalVNav";
+import { Link } from "react-router-dom";
 
 export default function UserJournalForm({ currentUser, setCounter, counter }) {
   const [privateGrat, setPrivateGrat] = useState(true);
@@ -192,16 +193,7 @@ export default function UserJournalForm({ currentUser, setCounter, counter }) {
               style={{ maxHeight: "600px" }}
             /> */}
               <Grid container direction="row" sx={{ mt: 2 }}>
-                <Grid item xs={8}>
-                  <Fab
-                    color="secondary"
-                    size="small"
-                    aria-label="edit"
-                    id="edit-btn"
-                  >
-                    <EditIcon />
-                  </Fab>
-                </Grid>
+                <Grid item xs={8}></Grid>
                 <Grid item xs={4}>
                   <Button
                     type="submit"
@@ -211,9 +203,14 @@ export default function UserJournalForm({ currentUser, setCounter, counter }) {
                   >
                     Save
                   </Button>
-                  <Button variant="contained" id="delete-btn">
-                    Delete
-                  </Button>
+                  <Link
+                    to={`/${currentUser.id}/journal`}
+                    className="react-links"
+                  >
+                    <Button variant="contained" id="delete-btn">
+                      Cancel
+                    </Button>
+                  </Link>
                 </Grid>
               </Grid>
             </Box>

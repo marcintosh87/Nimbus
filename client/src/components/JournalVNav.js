@@ -14,14 +14,12 @@ export default function JournalVNav({ currentUser }) {
         <p className="menu-label">Journals</p>
 
         <ul className="menu-list">
-          <Link to="/addJournal" className="react-links">
+          <Link to={`/${currentUser.id}/addJournal`} className="react-links">
             <Button>Add Journal</Button>
           </Link>
-          {/* <Link to="addJournal" className="react-links">
-          <Button>Recent Entries</Button>
-        </Link> */}
+
           <li>
-            <Link to="/addJournal" className="react-links">
+            <Link to={`/${currentUser.id}/journal`} className="react-links">
               <Button>Recent Entries</Button>
             </Link>
 

@@ -1,4 +1,4 @@
-import { Avatar, Container, Grid } from "@mui/material";
+import { Avatar, Box, Container, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -45,97 +45,102 @@ export default function Navbar({
   };
 
   return (
-    <Container className="Navbar-container" sx={{ py: 1 }}>
-      <Grid
-        container
-        sx={{ my: 1 }}
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-      >
-        <Grid item xs={3}>
-          <Link to="/">
-            <img src={logo} alt="Nimbus Logo" id="logo" />
-          </Link>
-        </Grid>
-        <Grid item xs={3}></Grid>
-        <Grid item xs={5}>
-          <Link to="/" className="react-links">
-            <Button>Gratitude Space</Button>
-          </Link>
+    <Container className="Navbar-container" sx={{ py: 1, width: "100%" }}>
+      <Box>
+        <Grid
+          container
+          sx={{ my: 1 }}
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+        >
+          <Grid item xs={3}>
+            <Link to="/">
+              <img src={logo} alt="Nimbus Logo" id="logo" />
+            </Link>
+          </Grid>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={5}>
+            <Link to="/" className="react-links">
+              <Button>Gratitude Space</Button>
+            </Link>
 
-          {authenticated ? (
+            {authenticated ? (
+              <Button
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              >
+                Mood Journal
+              </Button>
+            ) : null}
+            {currentUser && (
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                {currentUser && (
+                  <Link
+                    to={`${currentUser.id}/addJournal`}
+                    className="react-links"
+                  >
+                    <MenuItem onClick={handleClose}>New Entry</MenuItem>
+                  </Link>
+                )}
+
+                {currentUser && (
+                  <Link
+                    to={`${currentUser.id}/journal`}
+                    className="react-links"
+                  >
+                    <MenuItem onClick={handleClose}>View Entries</MenuItem>
+                  </Link>
+                )}
+              </Menu>
+            )}
+          </Grid>
+          <Grid item xs={1}>
             <Button
               id="basic-button"
-              aria-controls={open ? "basic-menu" : undefined}
+              aria-controls={open ? "login-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}
+              onClick={handleClickLog}
             >
-              Mood Journal
+              <Avatar alt="Cindy Baker" src="" />
             </Button>
-          ) : null}
-          {currentUser && (
+
             <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
+              id="login-menu"
+              anchorEl={logEl}
+              open={openLog}
+              onClose={handleCloseLog}
               MenuListProps={{
                 "aria-labelledby": "basic-button",
               }}
             >
-              {currentUser && (
-                <Link
-                  to={`${currentUser.id}/addJournal`}
-                  className="react-links"
-                >
-                  <MenuItem onClick={handleClose}>New Entry</MenuItem>
-                </Link>
-              )}
-
-              {currentUser && (
-                <Link to={`${currentUser.id}/journal`} className="react-links">
-                  <MenuItem onClick={handleClose}>View Entries</MenuItem>
+              {authenticated ? (
+                <MenuItem>{`${currentUser.first_name} ${currentUser.last_name}`}</MenuItem>
+              ) : null}
+              {authenticated ? (
+                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+              ) : (
+                <Link to="/sign-in" className="react-links">
+                  {" "}
+                  <MenuItem onClick={handleCloseLog}>Log In</MenuItem>
                 </Link>
               )}
             </Menu>
-          )}
+          </Grid>
         </Grid>
-        <Grid item xs={1}>
-          <Button
-            id="basic-button"
-            aria-controls={open ? "login-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClickLog}
-          >
-            <Avatar alt="Cindy Baker" src="" />
-          </Button>
-
-          <Menu
-            id="login-menu"
-            anchorEl={logEl}
-            open={openLog}
-            onClose={handleCloseLog}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-            {authenticated ? (
-              <MenuItem>{`${currentUser.first_name} ${currentUser.last_name}`}</MenuItem>
-            ) : null}
-            {authenticated ? (
-              <MenuItem onClick={handleLogout}>Log Out</MenuItem>
-            ) : (
-              <Link to="/sign-in" className="react-links">
-                {" "}
-                <MenuItem onClick={handleCloseLog}>Log In</MenuItem>
-              </Link>
-            )}
-          </Menu>
-        </Grid>
-      </Grid>
+      </Box>
     </Container>
   );
 }

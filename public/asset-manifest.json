@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.fffed161.css",
+    "main.js": "/static/js/main.5fc04caa.js",
+    "static/media/gratitude-space-banner.jpg": "/static/media/gratitude-space-banner.aedf3649f0980ca8e63c.jpg",
+    "static/media/Nimbus-journals-banner.jpg": "/static/media/Nimbus-journals-banner.474bcc600cda2dfae8a5.jpg",
+    "static/media/Nimbus-white.png": "/static/media/Nimbus-white.9e0f222956c604be6464.png",
+    "index.html": "/index.html",
+    "main.fffed161.css.map": "/static/css/main.fffed161.css.map",
+    "main.5fc04caa.js.map": "/static/js/main.5fc04caa.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fffed161.css",
+    "static/js/main.5fc04caa.js"
+  ]
+}

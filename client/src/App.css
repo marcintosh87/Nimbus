@@ -55,7 +55,7 @@
   width: 100%;
 }
 #logo {
-  animation: pulsate 1s ease-out;
+  animation: pulsate 4s ease-out;
   animation-iteration-count: infinite;
   opacity: 1;
 }
